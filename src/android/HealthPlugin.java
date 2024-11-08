@@ -70,6 +70,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1067,6 +1068,24 @@ public class HealthPlugin extends CordovaPlugin {
                 SleepFunctions.prepareStoreRecords(args.getJSONObject(0), data);
             } else if (datatype.equalsIgnoreCase("heart_rate")) {
                 HeartRateFunctions.prepareStoreRecords(args.getJSONObject(0), st, et, data);
+            } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
+                long bpm = args.getJSONObject(0).getLong("value");
+                RestingHeartRateRecord record = new RestingHeartRateRecord(
+                        Instant.ofEpochMilli(st),
+                        ZoneOffset.from(ZonedDateTime.now()),
+                        bpm,
+                        Metadata.EMPTY
+                );
+                data.add(record);
+            } else if (datatype.equalsIgnoreCase("heart_rate.variability")) {
+                double ms = args.getJSONObject(0).getDouble("value");
+                HeartRateVariabilityRmssdRecord record = new HeartRateVariabilityRmssdRecord(
+                        Instant.ofEpochMilli(st),
+                        ZoneOffset.from(ZonedDateTime.now()),
+                        ms,
+                        Metadata.EMPTY
+                );
+                data.add(record);
             } else if (datatype.equalsIgnoreCase("nutrition")) {
                 NutritionFunctions.prepareStoreRecords(args.getJSONObject(0), data);
             } else if (datatype.equalsIgnoreCase("nutrition.water")) {
