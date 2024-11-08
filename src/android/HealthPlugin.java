@@ -27,10 +27,12 @@ import androidx.health.connect.client.records.ExerciseLap;
 import androidx.health.connect.client.records.ExerciseSegment;
 import androidx.health.connect.client.records.ExerciseSessionRecord;
 import androidx.health.connect.client.records.HeartRateRecord;
+import androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord;
 import androidx.health.connect.client.records.HeightRecord;
 import androidx.health.connect.client.records.HydrationRecord;
 import androidx.health.connect.client.records.NutritionRecord;
 import androidx.health.connect.client.records.Record;
+import androidx.health.connect.client.records.RestingHeartRateRecord;
 import androidx.health.connect.client.records.SleepSessionRecord;
 import androidx.health.connect.client.records.StepsRecord;
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord;
@@ -287,6 +289,12 @@ public class HealthPlugin extends CordovaPlugin {
         }
         if (name.equalsIgnoreCase("distance")) {
             return kotlin.jvm.JvmClassMappingKt.getKotlinClass(DistanceRecord.class);
+        }
+        if (name.equalsIgnoreCase("heart_rate.resting")) {
+            return kotlin.jvm.JvmClassMappingKt.getKotlinClass(RestingHeartRateRecord.class);
+        }
+        if (name.equalsIgnoreCase("heart_rate.variability")) {
+            return kotlin.jvm.JvmClassMappingKt.getKotlinClass(HeartRateVariabilityRmssdRecord.class);
         }
         if (name.equalsIgnoreCase("height")) {
             return HeightFunctions.dataTypeToClass();
