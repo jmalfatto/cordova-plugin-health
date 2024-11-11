@@ -727,6 +727,10 @@ public class HealthPlugin extends CordovaPlugin {
                         request = SleepFunctions.prepareAggregateGroupByPeriodRequest(timeRange, period, dor);
                     } else if (datatype.equalsIgnoreCase("heart_rate")) {
                         request = HeartRateFunctions.prepareAggregateGroupByPeriodRequest(timeRange, period, dor);
+                    } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
+                        Set<AggregateMetric<Long>> metrics = new HashSet<>();
+                        metrics.add(RestingHeartRateRecord.BPM_AVG);
+                        request = new AggregateGroupByPeriodRequest(metrics, timeRange, period, dor);
                     } else {
                         callbackContext.error("Datatype not recognized " + datatype);
                         return;
@@ -791,6 +795,10 @@ public class HealthPlugin extends CordovaPlugin {
                         request = SleepFunctions.prepareAggregateGroupByDurationRequest(timeRange, duration, dor);
                     } else if (datatype.equalsIgnoreCase("heart_rate")) {
                         request = HeartRateFunctions.prepareAggregateGroupByDurationRequest(timeRange, duration, dor);
+                    } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
+                        Set<AggregateMetric<Long>> metrics = new HashSet<>();
+                        metrics.add(RestingHeartRateRecord.BPM_AVG);
+                        request = new AggregateGroupByDurationRequest(metrics, timeRange, duration, dor);
                     } else {
                         callbackContext.error("Datatype not recognized " + datatype);
                         return;
@@ -858,6 +866,10 @@ public class HealthPlugin extends CordovaPlugin {
                     request = SleepFunctions.prepareAggregateRequest(timeRange, dor);
                 } else if (datatype.equalsIgnoreCase("heart_rate")) {
                     request = HeartRateFunctions.prepareAggregateRequest(timeRange, dor);
+                } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
+                    Set<AggregateMetric<Long>> metrics = new HashSet<>();
+                    metrics.add(RestingHeartRateRecord.BPM_AVG);
+                    request = new AggregateRequest(metrics, timeRange, dor);
                 } else {
                     callbackContext.error("Datatype not recognized " + datatype);
                     return;
@@ -955,6 +967,15 @@ public class HealthPlugin extends CordovaPlugin {
             SleepFunctions.populateFromAggregatedQuery(response, retObj);
         } else if (datatype.equalsIgnoreCase("heart_rate")) {
             HeartRateFunctions.populateFromAggregatedQuery(response, retObj);
+        } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
+            Long val = response.get(RestingHeartRateRecord.BPM_AVG);
+            if (val != null) {
+                retObj.put("value", val);
+                retObj.put("unit", "bpm");
+            } else {
+                retObj.put("value", 0);
+                retObj.put("unit", "bpm");
+            }
         } else {
             LOG.e(TAG, "Data type not recognized " + datatype);
         }
