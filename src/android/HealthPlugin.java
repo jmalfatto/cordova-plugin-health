@@ -573,6 +573,22 @@ public class HealthPlugin extends CordovaPlugin {
                     } else if (datapoint instanceof HeartRateRecord) {
                         oneElementPerRecord = false; // bpms are sent individually
                         HeartRateFunctions.populateFromQuery(datapoint, resultset);
+                    } else if (datapoint instanceof RestingHeartRateRecord) {
+                        RestingHeartRateRecord restingHR = (RestingHeartRateRecord) datapoint;
+                        obj.put("startDate", restingHR.getTime().toEpochMilli());
+                        obj.put("endDate", restingHR.getTime().toEpochMilli());
+
+                        int bpm = (int) restingHR.getBeatsPerMinute();
+                        obj.put("value", bpm);
+                        obj.put("unit", "bpm");
+                    } else if (datapoint instanceof HeartRateVariabilityRmssdRecord) {
+                        HeartRateVariabilityRmssdRecord hrVariability = (HeartRateVariabilityRmssdRecord) datapoint;
+                        obj.put("startDate", hrVariability.getTime().toEpochMilli());
+                        obj.put("endDate", hrVariability.getTime().toEpochMilli());
+
+                        double rmssd = hrVariability.getHeartRateVariabilityMillis();
+                        obj.put("value", rmssd);
+                        obj.put("unit", "ms");
                     } else {
                         callbackContext.error("Sample received of unknown type " + datatype.toString());
                         return;
