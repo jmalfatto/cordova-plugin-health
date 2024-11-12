@@ -174,7 +174,7 @@ public class HeartRateFunctions {
         return new AggregateRequest(metrics, timeRange, dor);
     }
 
-    public static void prepareRestingStoreRecords(JSONObject storeObj, long st, long et, List<Record> data) throws JSONException {
+    public static void prepareRestingStoreRecords(JSONObject storeObj, long st, List<Record> data) throws JSONException {
         long bpm = storeObj.getLong("value");
         RestingHeartRateRecord record = new RestingHeartRateRecord(
                 Instant.ofEpochMilli(st),
@@ -197,7 +197,7 @@ public class HeartRateFunctions {
         obj.put("unit", "ms");
     }
 
-    public static void prepareVariabilityStoreRecords(JSONObject storeObj, long st, long et, List<Record> data) throws JSONException {
+    public static void prepareVariabilityStoreRecords(JSONObject storeObj, long st, List<Record> data) throws JSONException {
         double ms = storeObj.getDouble("value");
         HeartRateVariabilityRmssdRecord record = new HeartRateVariabilityRmssdRecord(
                 Instant.ofEpochMilli(st),

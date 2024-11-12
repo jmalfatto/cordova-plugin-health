@@ -1061,9 +1061,9 @@ public class HealthPlugin extends CordovaPlugin {
             } else if (datatype.equalsIgnoreCase("heart_rate")) {
                 HeartRateFunctions.prepareStoreRecords(args.getJSONObject(0), st, et, data);
             } else if (datatype.equalsIgnoreCase("heart_rate.resting")) {
-                HeartRateFunctions.prepareRestingStoreRecords(args.getJSONObject(0), st, et, data);
+                HeartRateFunctions.prepareRestingStoreRecords(args.getJSONObject(0), st, data);
             } else if (datatype.equalsIgnoreCase("heart_rate.variability")) {
-                HeartRateFunctions.prepareVariabilityStoreRecords(args.getJSONObject(0), st, et, data);
+                HeartRateFunctions.prepareVariabilityStoreRecords(args.getJSONObject(0), st, data);
             } else if (datatype.equalsIgnoreCase("nutrition")) {
                 NutritionFunctions.prepareStoreRecords(args.getJSONObject(0), data);
             } else if (datatype.equalsIgnoreCase("nutrition.water")) {
